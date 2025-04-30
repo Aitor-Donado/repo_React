@@ -2,7 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 //import "./App.css";
-import Acordeon from "./Acordeon";
+import Acordeon from "./components/Acordeon";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -18,7 +18,7 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      <Acordeon propiedad="Hola" />
+      <Acordeon />
       <div className="card">
         <button
           className="btn btn-success"
