@@ -1,9 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 
-const FormTareas = () => {
+const FormTareas = ({ onAgregarTareas }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+
+    const formData = new FormData(e.target);
+    const tareaData = {
+      texto: formData.get("texto"),
+      prioridad: formData.get("prioridad"),
+      momento: formData.get("momento"),
+    };
+    onAgregarTareas(tareaData);
+    e.target.reset(); // Esta línea resetea el formulario
   };
 
   return (
@@ -11,7 +19,7 @@ const FormTareas = () => {
       <label htmlFor="tarea_nueva"></label>
       <input
         type="text"
-        id="tarea_nueva"
+        name="texto"
         maxLength="40"
         placeholder="Introduce nueva tarea"
       />
@@ -21,7 +29,7 @@ const FormTareas = () => {
         <option value="media">Tarea Importante</option>
         <option value="alta">Tarea Urgente</option>
       </select>
-      <input type="datetime-local" id="momento" />
+      <input type="datetime-local" name="momento" />
       <button type="submit" id="aniadir_tarea">
         Añadir
       </button>
