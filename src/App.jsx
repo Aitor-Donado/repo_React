@@ -1,12 +1,13 @@
 import { useState } from "react";
+import FormTareas from "./components/FormTareas";
 
 function App() {
-  const [tareas, setTareas] = useState([]);
+  const [tareas, setTareas] = useState(["texto tarea1", "texto tarea 2"]);
   return (
     <>
       <div className="container">
         <h1>Gestor de tareas</h1>
-        {/* Aquí iría el formulario para añadir tareas */}
+        <FormTareas />
         <h2>Tareas pendientes</h2>
         <ul>
           {tareas.map((tarea, index) => (
