@@ -17,10 +17,34 @@ const FilaTarea = ({ tarea, onBorrarTarea }) => {
         return "";
     }
   };
+  const getTiempoQueda = () => {
+    const ahora = new Date();
+    const momento = new Date(tarea.momento);
+    const tiempoQueda = momento - ahora;
+    if (tiempoQueda <= 0) {
+      return "La tarea está vencida";
+    }
+    const dias = Math.floor(tiempoQueda / (1000 * 60 * 60 * 24));
+    const horas = Math.floor(
+      (tiempoQueda % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutos = Math.floor((tiempoQueda % (1000 * 60 * 60)) / (1000 * 60));
+    const segundos = Math.floor((tiempoQueda % (1000 * 60)) / 1000);
+    return `Quedan ${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos`;
+  };
+
+  const handleMouseOver = (e) => {
+    e.target.title = getTiempoQueda();
+  };
+
+  const handleOnMouseLeave = (e) => {
+    e.target.title = "";
+  };
+
   return (
-    <tr className={getBgClass()}>
+    <tr onMouseOver={handleMouseOver} onMouseLeave={handleOnMouseLeave} on>
       <td className={getBgClass()}>{tarea.texto}</td>
-      <td className={getBgClass()}>{tarea.prioridad}</td>
+      <td className={tarea.prioridad}>{tarea.prioridad}</td>
       <td className={getBgClass()}>
         {tarea.momento.toLocaleString() || "No especificada"}
       </td>

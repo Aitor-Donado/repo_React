@@ -11,6 +11,6 @@
   background-color: #f0e2ba !important;
 }
 /*Dar un color de fondo al tr de clase alta*/
-.table tbody tr.alta {
+.alta {
   background-color: #ecb79e !important;
 }
