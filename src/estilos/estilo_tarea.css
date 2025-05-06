@@ -1,0 +1,16 @@
+/*Dar un color de fondo al tr de clase muy_baja*/
+.muy_baja {
+  background-color: #ebe8e8 !important;
+}
+/*Dar un color de fondo al tr de clase baja*/
+.baja {
+  background-color: #a5f8c5 !important;
+}
+/*Dar un color de fondo al tr de clase media*/
+.media {
+  background-color: #f0e2ba !important;
+}
+/*Dar un color de fondo al tr de clase alta*/
+.table tbody tr.alta {
+  background-color: #ecb79e !important;
+}

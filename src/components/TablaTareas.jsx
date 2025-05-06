@@ -3,7 +3,8 @@ import FilaTarea from "./FilaTarea";
 
 const TablaTareas = ({ tareas, onBorrarTarea }) => {
   return (
-    <table>
+    <table className="table">
+      <caption>Lista de tareas</caption>
       <thead>
         <tr>
           <th>Descripción</th>
