@@ -1,12 +1,16 @@
 import React from "react";
 
-const FilaTarea = ({ tarea }) => {
+const FilaTarea = ({ tarea, onBorrarTarea }) => {
   return (
-    <tr key={tarea.id}>
+    <tr>
       <td>{tarea.texto}</td>
       <td>{tarea.prioridad}</td>
       <td>{tarea.momento || "No especificada"}</td>
-      <td>{tarea.id}</td>
+      <td>
+        <button type="button" onClick={() => onBorrarTarea(tarea.id)}>
+          Borrar
+        </button>
+      </td>
     </tr>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import FilaTarea from "./FilaTarea";
 
-const TablaTareas = ({ tareas }) => {
+const TablaTareas = ({ tareas, onBorrarTarea }) => {
   return (
     <table>
       <thead>
@@ -14,7 +14,12 @@ const TablaTareas = ({ tareas }) => {
       </thead>
       <tbody>
         {tareas.map((tarea) => (
-          <FilaTarea tarea={tarea} tareas={tareas} />
+          <FilaTarea
+            key={tarea.id}
+            tarea={tarea}
+            tareas={tareas}
+            onBorrarTarea={onBorrarTarea}
+          />
         ))}
       </tbody>
     </table>
