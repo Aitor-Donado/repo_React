@@ -8,7 +8,7 @@ const MuestraCocteles = ({ cocteles, cargando }) => {
         {cocteles.map((coctel) => (
           <div
             key={coctel.idDrink}
-            className="col-12  col-md-6 col-lg-4  col-xl-3  mb-4"
+            className="col-12  col-md-6 col-lg-6  col-xl-3  mb-4"
           >
             <CocktailCard cocktail={coctel} />
           </div>
