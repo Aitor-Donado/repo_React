@@ -1,5 +1,5 @@
 import { useState } from "react";
-function BuscaCoctel() {
+function BuscaCoctel({ buscarCocteles }) {
   const [ingrediente, setIngrediente] = useState("");
   const handleClick = (e) => {
     setIngrediente(e.target.dataset.ingredient);
@@ -18,7 +18,11 @@ function BuscaCoctel() {
               placeholder="Ej: vodka, ron, tequila..."
             />
           </div>
-          <button id="searchBtn" className="btn btn-primary col">
+          <button
+            id="searchBtn"
+            className="btn btn-primary col"
+            onClick={() => buscarCocteles(ingrediente)}
+          >
             <i className="fas fa-cocktail"></i>
             Buscar
           </button>
