@@ -3,6 +3,7 @@ function BuscaCoctel({ buscarCocteles }) {
   const [ingrediente, setIngrediente] = useState("");
   const handleClick = (e) => {
     setIngrediente(e.target.dataset.ingredient);
+    buscarCocteles(e.target.dataset.ingredient);
   };
   return (
     <div className="card">
@@ -28,7 +29,7 @@ function BuscaCoctel({ buscarCocteles }) {
           </button>
         </div>
         <div className="quick-tags">
-          <span>Prueba con:</span>
+          <span className="me-2">Prueba con:</span>
           <button
             onClick={handleClick}
             className="btn btn-outline-primary"

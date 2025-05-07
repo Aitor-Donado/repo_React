@@ -12,6 +12,10 @@ function App() {
       const respuesta = await fetch(url);
       const datos = await respuesta.json();
       console.log(datos);
+      if (!datos.drinks) {
+        setCocteles([]);
+        return;
+      }
       setCocteles(datos.drinks);
     } catch (error) {
       console.log(error);
@@ -19,11 +23,6 @@ function App() {
       setCargando(false);
     }
   };
-
-  useEffect(() => {
-    console.log("cocteles a posteriori", cocteles);
-    console.log("cargando a posteriori", cargando);
-  }, [cocteles, cargando]);
 
   return (
     <div className="container">
