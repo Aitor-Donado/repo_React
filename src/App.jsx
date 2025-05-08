@@ -1,14 +1,18 @@
-import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+// ... otros imports ...
+import LogIn from "./components/LogIn";
+import BarraNavegacion from "./components/BarraNavegacion";
+
+// ... otros componentes ...
+
 import Home from "./Home";
 import GestorTareas from "./GestorTareas";
 import Cocteleria from "./Cocteleria";
-import BarraNavegacion from "./components/BarraNavegacion";
-import LogIn from "./components/LogIn";
-import AuthContext from "./AuthContext";
+
 function App() {
   return (
-    <AuthContext.Provider value={{ nombre: null, edad: null }}>
+    <AuthProvider>
       <BrowserRouter>
         <BarraNavegacion />
         <Routes>
@@ -19,8 +23,7 @@ function App() {
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </BrowserRouter>
-    </AuthContext.Provider>
+    </AuthProvider>
   );
 }
-
 export default App;

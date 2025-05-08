@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import BuscaCoctel from "./components/BuscaCoctel";
 import MuestraCocteles from "./components/MuestraCocteles";
-import AuthContext from "./AuthContext";
+import AuthContext from "./context/AuthContext";
 
 function Cocteleria() {
   const edad = useContext(AuthContext).edad;
