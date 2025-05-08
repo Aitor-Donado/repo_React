@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import BuscaCoctel from "./components/BuscaCoctel";
 import MuestraCocteles from "./components/MuestraCocteles";
+import AuthContext from "./AuthContext";
 
-function Cocteleria({ usuario }) {
+function Cocteleria() {
+  const edad = useContext(AuthContext).edad;
   const [cocteles, setCocteles] = useState([]);
   const [cargando, setCargando] = useState(false);
   const buscarCocteles = async (ingrediente) => {
@@ -27,7 +29,7 @@ function Cocteleria({ usuario }) {
   return (
     <div className="container">
       <h1>Explorador de cócteles</h1>
-      {usuario.edad >= 18 ? (
+      {edad >= 18 ? (
         <>
           <p>
             Descubre deliciosas recetas de cócteles basadas en tu bebida

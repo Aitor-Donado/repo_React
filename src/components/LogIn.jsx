@@ -1,12 +1,16 @@
-import React from "react";
-function LogIn({ logeador }) {
+import React, { useContext } from "react";
+import AuthContext from "../AuthContext";
+function LogIn() {
+  const contexto = useContext(AuthContext);
   const annadeUsuario = (e) => {
     e.preventDefault();
     console.log(e.target);
     const email = e.target.email.value;
     const edad = e.target.edad.value;
     console.log(email, parseInt(edad));
-    logeador({ nombre: email, edad: parseInt(edad) });
+    contexto.nombre = email;
+    contexto.edad = parseInt(edad);
+    console.log("Esto es lo qe hay en el AuthContext", contexto);
   };
 
   return (

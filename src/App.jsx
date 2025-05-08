@@ -5,24 +5,21 @@ import GestorTareas from "./GestorTareas";
 import Cocteleria from "./Cocteleria";
 import BarraNavegacion from "./components/BarraNavegacion";
 import LogIn from "./components/LogIn";
-
+import AuthContext from "./AuthContext";
 function App() {
-  const [user, setUser] = useState(null);
-
-  const logeador = (usuario) => {
-    setUser(usuario);
-  };
   return (
-    <BrowserRouter>
-      <BarraNavegacion />
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/tareas" element={<GestorTareas />} />
-        <Route path="/cocteleria" element={<Cocteleria usuario={user} />} />
-        <Route path="/login" element={<LogIn logeador={logeador} />} />
-        <Route path="*" element={<h1>404</h1>} />
-      </Routes>
-    </BrowserRouter>
+    <AuthContext.Provider value={{ nombre: null, edad: null }}>
+      <BrowserRouter>
+        <BarraNavegacion />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/tareas" element={<GestorTareas />} />
+          <Route path="/cocteleria" element={<Cocteleria />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="*" element={<h1>404</h1>} />
+        </Routes>
+      </BrowserRouter>
+    </AuthContext.Provider>
   );
 }
 
