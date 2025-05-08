@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import BuscaCoctel from "./components/BuscaCoctel";
 import MuestraCocteles from "./components/MuestraCocteles";
 
-function Cocteleria() {
+function Cocteleria({ usuario }) {
   const [cocteles, setCocteles] = useState([]);
   const [cargando, setCargando] = useState(false);
   const buscarCocteles = async (ingrediente) => {
@@ -27,11 +27,18 @@ function Cocteleria() {
   return (
     <div className="container">
       <h1>Explorador de cócteles</h1>
-      <p>
-        Descubre deliciosas recetas de cócteles basadas en tu bebida favorita
-      </p>
-      <BuscaCoctel buscarCocteles={buscarCocteles} />
-      <MuestraCocteles cocteles={cocteles} cargando={cargando} />
+      {usuario.edad >= 18 ? (
+        <>
+          <p>
+            Descubre deliciosas recetas de cócteles basadas en tu bebida
+            favorita
+          </p>
+          <BuscaCoctel buscarCocteles={buscarCocteles} />
+          <MuestraCocteles cocteles={cocteles} cargando={cargando} />
+        </>
+      ) : (
+        <h2>No puedes entrar</h2>
+      )}
     </div>
   );
 }
