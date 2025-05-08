@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 import LogInOut from "./LogInOut";
 
 const BarraNavegacion = () => {
@@ -35,6 +34,11 @@ const BarraNavegacion = () => {
             <li className="nav-item">
               <Link to="/cocteleria" className="nav-link">
                 Coctelería
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/mensajero" className="nav-link">
+                Mensajero
               </Link>
             </li>
             {/* ... otros elementos del menú ... */}

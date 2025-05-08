@@ -3,6 +3,7 @@ import { AuthProvider } from "./context/AuthContext";
 // ... otros imports ...
 import LogIn from "./components/LogIn";
 import BarraNavegacion from "./components/BarraNavegacion";
+import Mensajero from "./Mensajero";
 
 // ... otros componentes ...
 
@@ -19,6 +20,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/tareas" element={<GestorTareas />} />
           <Route path="/cocteleria" element={<Cocteleria />} />
+          <Route path="/mensajero" element={<Mensajero />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
