@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import TablaMensajes from "./TablaMensajes";
+
 function Mensajero() {
   const [mensajes, setMensajes] = useState([]);
   const [cargando, setCargando] = useState(true);
@@ -19,7 +21,7 @@ function Mensajero() {
   return (
     <div className="container">
       <h2>Mensajero</h2>
-      <p>{cargando ? "Cargando..." : mensajes[0].titulo}</p>
+      {!cargando && <TablaMensajes mensajes={mensajes} />}
     </div>
   );
 }
