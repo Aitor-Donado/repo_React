@@ -1,4 +1,4 @@
-const TablaMensajes = ({ mensajes }) => {
+const TablaMensajes = ({ mensajes, onBorrarMensaje }) => {
   return (
     <table className="table table-striped table-bordered table-hover table-responsive">
       <thead className="table-dark">
@@ -14,7 +14,11 @@ const TablaMensajes = ({ mensajes }) => {
       <tbody>
         {mensajes.map((mensaje) => (
           <tr key={mensaje.id}>
-            <td className="font-monospace">{mensaje.id}</td>
+            <td className="font-monospace">
+              <button onClick={() => onBorrarMensaje(mensaje.id)}>
+                Borrar
+              </button>
+            </td>
             <td className="fw-semibold">{mensaje.titulo}</td>
             <td>{mensaje.autor}</td>
             <td className="text-truncate" style={{ maxWidth: "200px" }}>

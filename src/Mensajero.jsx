@@ -1,10 +1,27 @@
 import { useEffect, useState } from "react";
 import TablaMensajes from "./TablaMensajes";
-
+import MensajeForm from "./components/MensajeForm";
 function Mensajero() {
   const [mensajes, setMensajes] = useState([]);
   const [cargando, setCargando] = useState(true);
 
+  // Borrar un mensaje con un fetch delete
+  const borrarMensaje = (id) => {
+    fetch(`https://aitor.alwaysdata.net/listado/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setMensajes(mensajes.filter((mensaje) => mensaje.id !== id));
+        //setCargando(true);
+      })
+      .catch((error) => {
+        console.error("Error al borrar el mensaje:", error);
+      });
+  };
+
+  // Obtener los mensajes con un fetch
   useEffect(() => {
     fetch("https://aitor.alwaysdata.net/listado")
       .then((response) => response.json())
@@ -21,7 +38,10 @@ function Mensajero() {
   return (
     <div className="container">
       <h2>Mensajero</h2>
-      {!cargando && <TablaMensajes mensajes={mensajes} />}
+      <MensajeForm />
+      {!cargando && (
+        <TablaMensajes mensajes={mensajes} onBorrarMensaje={borrarMensaje} />
+      )}
     </div>
   );
 }
