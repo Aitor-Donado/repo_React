@@ -5,6 +5,11 @@ function Mensajero() {
   const [mensajes, setMensajes] = useState([]);
   const [cargando, setCargando] = useState(true);
 
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleNewMessage = () => {
+    setRefreshKey((prevKey) => prevKey + 1); // Forzar refresco de TablaMensajes
+  };
   // Borrar un mensaje con un fetch delete
   const borrarMensaje = (id) => {
     fetch(`https://aitor.alwaysdata.net/listado/${id}`, {
@@ -38,9 +43,13 @@ function Mensajero() {
   return (
     <div className="container">
       <h2>Mensajero</h2>
-      <MensajeForm />
+      <MensajeForm onSubmitSuccess={handleNewMessage} />
       {!cargando && (
-        <TablaMensajes mensajes={mensajes} onBorrarMensaje={borrarMensaje} />
+        <TablaMensajes
+          mensajes={mensajes}
+          onBorrarMensaje={borrarMensaje}
+          key={refreshKey} // Esto fuerza el remontaje del componente
+        />
       )}
     </div>
   );
