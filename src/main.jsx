@@ -4,11 +4,11 @@ import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./estilos/estilo_tarea.css";
-// import App from "./App.jsx";
-import Mensajero from "./Mensajero.jsx";
+import App from "./App.jsx";
+// import Mensajero from "./Mensajero.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Mensajero />
+    <App />
   </StrictMode>
 );
