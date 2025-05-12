@@ -1,57 +1,60 @@
 import { useEffect, useState } from "react";
 import TablaMensajes from "./TablaMensajes";
 import MensajeForm from "./components/MensajeForm";
+
 function Mensajero() {
   const [mensajes, setMensajes] = useState([]);
   const [cargando, setCargando] = useState(true);
 
-  const [refreshKey, setRefreshKey] = useState(0);
-
-  const handleNewMessage = () => {
-    setRefreshKey((prevKey) => prevKey + 1); // Forzar refresco de TablaMensajes
+  // Función reutilizable para cargar mensajes
+  const cargarMensajes = () => {
+    setCargando(true);
+    fetch("https://aitor.alwaysdata.net/listado ")
+      .then((response) => response.json())
+      .then((data) => {
+        setMensajes(data.listado || []);
+        setCargando(false);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los mensajes:", error);
+        setCargando(false);
+      });
   };
-  // Borrar un mensaje con un fetch delete
+
+  // Cargar mensajes al montar el componente
+  useEffect(() => {
+    cargarMensajes();
+  }, []);
+
+  // Enviar notificación cuando llega un nuevo mensaje
+  const handleNewMessage = () => {
+    cargarMensajes(); // Recargar mensajes desde la API
+  };
+
+  // Borrar mensaje
   const borrarMensaje = (id) => {
-    fetch(`https://aitor.alwaysdata.net/listado/${id}`, {
+    fetch(`https://aitor.alwaysdata.net/listado/ ${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setMensajes(mensajes.filter((mensaje) => mensaje.id !== id));
-        //setCargando(true);
+        cargarMensajes(); // Refrescar lista tras eliminar
       })
       .catch((error) => {
         console.error("Error al borrar el mensaje:", error);
       });
   };
 
-  // Obtener los mensajes con un fetch
-  useEffect(() => {
-    fetch("https://aitor.alwaysdata.net/listado")
-      .then((response) => response.json())
-      .then((data) => {
-        setMensajes(data.listado);
-        setCargando(false);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los mensajes:", error);
-        setCargando(true);
-      });
-  }, []);
-
   return (
     <div className="container">
       <h2>Mensajero</h2>
-      <MensajeForm onSubmitSuccess={handleNewMessage} />
+      <MensajeForm handleNewMessage={handleNewMessage} />
       {!cargando && (
-        <TablaMensajes
-          mensajes={mensajes}
-          onBorrarMensaje={borrarMensaje}
-          key={refreshKey} // Esto fuerza el remontaje del componente
-        />
+        <TablaMensajes mensajes={mensajes} onBorrarMensaje={borrarMensaje} />
       )}
     </div>
   );
 }
+
 export default Mensajero;
