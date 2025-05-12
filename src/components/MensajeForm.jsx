@@ -1,49 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function MensajeForm({ handleNewMessage }) {
-  const [titulo, setTitulo] = useState("");
-  const [contenido, setContenido] = useState("");
-  const [autor, setAutor] = useState("");
+function MensajeForm({ handleNewMessage, mensajeEditando }) {
+  const [titulo, setTitulo] = useState(mensajeEditando?.titulo || "");
+  const [contenido, setContenido] = useState(mensajeEditando?.contenido || "");
+  const [autor, setAutor] = useState(mensajeEditando?.autor || "");
+
+  // Reiniciar formulario si cambia el mensaje a editar
+  useEffect(() => {
+    if (mensajeEditando) {
+      setTitulo(mensajeEditando.titulo);
+      setContenido(mensajeEditando.contenido);
+      setAutor(mensajeEditando.autor);
+    } else {
+      setTitulo("");
+      setContenido("");
+      setAutor("");
+    }
+  }, [mensajeEditando]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Construcción exacta de la URL como especificas
-    const url = new URL("https://aitor.alwaysdata.net/publicacion");
-    url.searchParams.append("titulo", titulo);
-    url.searchParams.append("contenido", contenido);
-    if (autor) url.searchParams.append("autor", autor);
+    const baseUrl = "https://aitor.alwaysdata.net";
+    let url;
 
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Mantenemos JSON como en tu versión funcional
-      },
-      body: JSON.stringify({}), // Cuerpo vacío ya que todo va en la URL
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error HTTP: ${response.status}`);
-        }
-        return response.json();
+    try {
+      if (mensajeEditando) {
+        // PUT: editar mensaje existente
+        url = new URL(`${baseUrl}/listado/${mensajeEditando.id}`);
+        url.searchParams.append("titulo", titulo);
+        url.searchParams.append("contenido", contenido);
+        if (autor) url.searchParams.append("autor", autor);
+
+        console.log("Editando mensaje - URL:", url.toString());
+      } else {
+        // POST: nuevo mensaje
+        url = new URL(`${baseUrl}/publicacion`);
+        url.searchParams.append("titulo", titulo);
+        url.searchParams.append("contenido", contenido);
+        if (autor) url.searchParams.append("autor", autor);
+
+        console.log("Creando mensaje - URL:", url.toString());
+      }
+
+      fetch(url, {
+        method: mensajeEditando ? "PUT" : "POST",
       })
-      .then((data) => {
-        console.log("Mensaje enviado:", data);
-        // Limpiar formulario
-        setTitulo("");
-        setContenido("");
-        setAutor("");
-        // Notificar al padre
-        if (handleNewMessage) handleNewMessage();
-      })
-      .catch((error) => {
-        console.error("Error al enviar:", error);
-        alert("Error al enviar el mensaje. Por favor, inténtalo de nuevo.");
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(
+              `Error HTTP: ${response.status} - ${response.statusText}`
+            );
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Respuesta del servidor:", data);
+          alert("✅ Mensaje enviado correctamente");
+          setTitulo("");
+          setContenido("");
+          setAutor("");
+
+          if (handleNewMessage) handleNewMessage();
+        })
+        .catch((error) => {
+          console.error("❌ Error al enviar/actualizar mensaje:", error);
+          alert("⚠️ Hubo un problema al enviar el mensaje. Revisa la consola.");
+        });
+    } catch (error) {
+      console.error("❌ Error al construir la URL:", error);
+      alert("⚠️ Dirección inválida. Comprueba la URL base.");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="mb-3">
+      {mensajeEditando && (
+        <input type="hidden" name="id" value={mensajeEditando.id} readOnly />
+      )}
+
       <div className="mb-3">
         <label htmlFor="titulo" className="form-label">
           Título*
@@ -57,6 +92,7 @@ function MensajeForm({ handleNewMessage }) {
           required
         />
       </div>
+
       <div className="mb-3">
         <label htmlFor="contenido" className="form-label">
           Contenido*
@@ -70,6 +106,7 @@ function MensajeForm({ handleNewMessage }) {
           required
         />
       </div>
+
       <div className="mb-3">
         <label htmlFor="autor" className="form-label">
           Autor
@@ -82,8 +119,9 @@ function MensajeForm({ handleNewMessage }) {
           onChange={(e) => setAutor(e.target.value)}
         />
       </div>
+
       <button type="submit" className="btn btn-primary">
-        Enviar Mensaje
+        {mensajeEditando ? "Actualizar Mensaje" : "Enviar Mensaje"}
       </button>
     </form>
   );
